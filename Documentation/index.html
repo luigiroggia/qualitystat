@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Control Charts &amp; Capability Analysis</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Control Charts &amp; Capability Analysis">
+  <meta name="author" content="Luigi Roggia - luigi.roggia@kiwidatascience.com">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="assets/img/logo.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Control Charts &amp; Capability Analysis</h1>
+    <h2>Simulate your process</h2>
+    <p>Luigi Roggia - luigi.roggia@kiwidatascience.com<br/>Data Scientist</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Introducing the subject</h2>
+  </hgroup>
+  <article data-timings="">
+    <p style="color:#669999">Well, suppose you have an industrial process</p>
+
+<ul>
+<li>What you need is your process being focused on some desired mean value</li>
+
+<li>You do not want any special cause introducing variability other than the natural one</li>
+
+<li>Also, your customers ask you to quantify how much capable you are to satify their specifications</li>
+</ul>
+
+<p style="color:#669999">
+A simple example: you process is filling water bottles, you have a historical mean of 750 ml with a standard deviation of 2.5 ml 
+</p>
+
+<ul>
+<li>
+You want to detect any unusual deviation from these values, so that your process is under statistical control</li>
+
+<li>
+Your customer wants you to quantify your capability of filling bottles with a target value of 750, a lower specification limit of 745 and an upper specification limit of 755
+</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>How to face the problem</h2>
+  </hgroup>
+  <article data-timings="">
+    <p style="color:#669999">
+In quality statistics you will find all the kinds of tools you need to control and quantify:
+</p>
+
+<ul>
+<li><i>Control charts</i> help you detecting unusual deviation from natural variability</li>
+<li><i>Capability analysis</i> let you quantify how much your process is capabale
+</ul>
+
+<pre><code class="r"># Example code
+library(qcc)
+Data&lt;-rnorm(20,mean=3,sd=0.7)
+
+# Create a control chart for single valued samplings
+obj&lt;-qcc(Data,type=&quot;xbar.one&quot;,title=&quot;Control Chart for Individual Values&quot;,plot=&quot;false&quot;)
+
+# Create a control chart with subgroups
+obj&lt;-qcc(Data,type=&quot;xbar&quot;,title=&quot;Control Chart with Subgroups&quot;,sizes=5,plot=&quot;false&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>About this project</h2>
+  </hgroup>
+  <article data-timings="">
+    <p style="color:#669999">
+The application developed within the project, does the followings:
+</p>
+
+<p><ul>
+<li>You can simulate a dataset from a normal distribution, giving the mean, the standard deviation, the number of samplings and the number of measurements for each sampling</li></p>
+
+<p><li>You can give the lower and upper specication limits and a desidered target value for the capability analysis; if not specified, the app will use 3 standard deviations and their midpoint</li></p>
+
+<p><li>The app automatically selects the correct control chart/s, based on the AIAG standards</li></p>
+
+<p><li>The app runs a capability analysis</li></p>
+
+<p><li>You can play around changing any of the above settings in real time and simulate what happens</li> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Understanding samplings and measurements</h2>
+  </hgroup>
+  <article data-timings="">
+    <p style="color:#669999">
+The app lets you specify both <i>number of samplings</i> and <i>measurements per sampling</i>. What does it mean?
+<p>
+
+<ul>
+<li>Suppose that at 11:00 am and at 5:00 pm you go and get some random samples from your production line, to control them. Ok, these are the <i>samplings</i>; you are having two samplings per day. Suppose you collect data in this way for 20 days, then you will have 20 samplings </li>
+
+<li>Suppose that any time you go for one of the above samplings, you collect 5 random items and then yoi check them; well, these are the measurements per sampling. In our example you will collect a total of 20*5 measures</li>
+
+</ul>
+
+<p style="color:#669999">
+The number of measurements per sampling, also called subgroup size, is critical in order to select the correct control chart, according to the standards.
+</p>
+
+<hr>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introducing the subject'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='How to face the problem'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='About this project'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Understanding samplings and measurements'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+
+  <script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
